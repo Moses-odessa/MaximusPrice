@@ -37,8 +37,14 @@ public class UpdateLists {
 
     public void update(){
         //update groups
+        String[] groupsArray = new String[1];
+        if (selectedSubGroup.isEmpty()){
+            groupsArray = priceData.getGroups(selectedGroup);
+        } else {
+            groupsArray[0] = "..";
+        }
         ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_list_item_1, priceData.getGroups(selectedGroup));
+                android.R.layout.simple_list_item_1, groupsArray);
         listGroups.setAdapter(adapter);
         //update goods todo custom layout
         List<String> goodsArray = new ArrayList<>();

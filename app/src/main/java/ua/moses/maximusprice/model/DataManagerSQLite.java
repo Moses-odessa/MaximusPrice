@@ -34,14 +34,15 @@ public class DataManagerSQLite extends SQLiteOpenHelper implements DataManager {
                     + PriceEntry._ID;
             columnName = PriceEntry.COLUMN_GROUP;
         } else {
-            sql = "SELECT DISTINCT "
+            sql = "SELECT '..' as " + PriceEntry.COLUMN_SUBGROUP
+                    + " UNION SELECT DISTINCT "
                     + PriceEntry.COLUMN_SUBGROUP
                     + " FROM "
                     + PriceEntry.TABLE_NAME
                     + " WHERE "
-                    + PriceEntry.COLUMN_GROUP + "='" + parentGroup +"'"
-                    + " ORDER BY "
-                    + PriceEntry._ID;
+                    + PriceEntry.COLUMN_GROUP + "='" + parentGroup +"' AND "
+                    + PriceEntry.COLUMN_SUBGROUP + "<>''"
+                    + " ORDER BY 1";
             columnName = PriceEntry.COLUMN_SUBGROUP;
         }
         Cursor cursor = db.rawQuery(sql, null);
