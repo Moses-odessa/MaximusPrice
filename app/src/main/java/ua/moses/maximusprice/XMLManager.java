@@ -12,24 +12,23 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-public class XMLManager {
+class XMLManager {
     private String xmlFileName;
 
-    public XMLManager(String xmlFileName) {
+    XMLManager(String xmlFileName) {
         this.xmlFileName = xmlFileName;
     }
 
-    public List<Good> getGoods() throws IOException {
-        final String GOODS_TAG = "XMLPrice";
+    List<Good> getGoods() throws IOException {
         final String GROUP_TAG = "Group";
         final String SUBGROUP_TAG = "SubGroup";
         final String GOOD_NAME_TAG = "Name";
         final String PRICE_TAG = "Price";
         final String DESCRIPTION_TAG = "Description";
         final String GOOD_ID_TAG = "Id";
-        List<Good> result = new ArrayList<Good>();
-        DocumentBuilder documentBuilder = null;
-        Document document = null;
+        List<Good> result = new ArrayList<>();
+        DocumentBuilder documentBuilder;
+        Document document;
         try {
             documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             document = documentBuilder.parse(xmlFileName);
@@ -70,8 +69,6 @@ public class XMLManager {
                 result.add(currentGood);
             }
         }
-
         return result;
     }
-
 }

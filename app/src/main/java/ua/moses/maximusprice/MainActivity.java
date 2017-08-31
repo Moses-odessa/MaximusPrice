@@ -21,7 +21,7 @@ public class MainActivity extends Activity {
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new UpdatePrice(viewsManager, btnUpdate).execute(getString(R.string.PRICE_LINK));
+                new UpdatePriceManager(viewsManager, btnUpdate).execute(getString(R.string.PRICE_LINK));
             }
         });
 

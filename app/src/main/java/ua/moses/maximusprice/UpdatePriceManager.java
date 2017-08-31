@@ -8,19 +8,19 @@ import java.util.ArrayList;
 import java.util.List;
 
 //http://developer.alexanderklimov.ru/android/theory/asynctask.php
-public class UpdatePrice extends AsyncTask<String, Integer, List<Good>> {
-    private ViewsManager updator;
+public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
+    private ViewsManager viewsManager;
     private Button btnUpdate;
 
-    UpdatePrice(ViewsManager updator, Button btnUpdate) {
-        this.updator = updator;
+    UpdatePriceManager(ViewsManager viewsManager, Button btnUpdate) {
+        this.viewsManager = viewsManager;
         this.btnUpdate = btnUpdate;
     }
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        btnUpdate.setText(updator.getContext().getString(R.string.BTN_UPDATE_LOADING_TITLE));
+        btnUpdate.setText(viewsManager.getContext().getString(R.string.BTN_UPDATE_LOADING_TITLE));
         btnUpdate.setClickable(false);
     }
 
@@ -39,8 +39,8 @@ public class UpdatePrice extends AsyncTask<String, Integer, List<Good>> {
 
     @Override
     protected void onPostExecute(List<Good> goods) {
-        updator.updateData(goods);
-        btnUpdate.setText(updator.getContext().getString(R.string.BTN_UPDATE_TITLE));
+        viewsManager.updateData(goods);
+        btnUpdate.setText(viewsManager.getContext().getString(R.string.BTN_UPDATE_TITLE));
         btnUpdate.setClickable(true);
     }
 }
