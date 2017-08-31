@@ -1,4 +1,4 @@
-package ua.moses.maximusprice.model;
+package ua.moses.maximusprice;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -10,17 +10,17 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataManagerSQLite extends SQLiteOpenHelper implements DataManager {
+public class DataManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "price.db";
     private static final int DATABASE_VERSION = 1;
 
-    public DataManagerSQLite(Context context) {
+    DataManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
 
-    @Override
-    public String[] getGroups(String parentGroup) {
+    String[] getGroups(String parentGroup) {
+        parentGroup = parentGroup.replaceAll("\'", "\'\'");
         List<String> list = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
         String sql;
@@ -58,14 +58,10 @@ public class DataManagerSQLite extends SQLiteOpenHelper implements DataManager {
         return result;
     }
 
-    @Override
-    public List<String> getSubGroups(String group) {
-        return null;
-    }
-
-    @Override
-    public List<Good> getGoods(String group, String subGroup) {
+    List<Good> getGoods(String group, String subGroup) {
         List<Good> result = new ArrayList<>();
+        group = group.replaceAll("\'", "\'\'");
+        subGroup = subGroup.replaceAll("\'", "\'\'");
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * "
                 + " FROM "
@@ -84,7 +80,7 @@ public class DataManagerSQLite extends SQLiteOpenHelper implements DataManager {
             good.setGroup(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_GROUP)));
             good.setSubGroup(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_SUBGROUP)));
             good.setDescription(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_DESCRIPTION)));
-            //good.setAvailability(Availability.valueOf(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_GROUP)))); todo
+            good.setAvailability(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_AVALAIBILITY)));
             result.add(good);
         }
         cursor.close();
@@ -92,13 +88,16 @@ public class DataManagerSQLite extends SQLiteOpenHelper implements DataManager {
         return result;
     }
 
-    @Override
-    public void updatePrice(List<Good> goods) {
+    void updatePrice(List<Good> goods) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(PriceEntry.TABLE_NAME, null, null);
         for (Good good : goods){
             addGood(db, good);
         }
+    }
+
+    public String getDescription(int goodID) {
+        return null;  //todo
     }
 
     private void addGood( SQLiteDatabase db, Good good) {
@@ -109,7 +108,7 @@ public class DataManagerSQLite extends SQLiteOpenHelper implements DataManager {
         values.put(PriceEntry.COLUMN_GROUP, good.getGroup());
         values.put(PriceEntry.COLUMN_SUBGROUP, good.getSubGroup());
         values.put(PriceEntry.COLUMN_DESCRIPTION, good.getDescription());
-        values.put(PriceEntry.COLUMN_AVALAIBILITY, good.getAvailability().toString());
+        values.put(PriceEntry.COLUMN_AVALAIBILITY, good.getAvailability());
 
         db.insert(PriceEntry.TABLE_NAME, null, values);
     }

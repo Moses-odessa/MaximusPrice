@@ -2,19 +2,17 @@ package ua.moses.maximusprice;
 
 import android.os.AsyncTask;
 import android.widget.Button;
-import ua.moses.maximusprice.model.Good;
-import ua.moses.maximusprice.model.XMLManager;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
 //http://developer.alexanderklimov.ru/android/theory/asynctask.php
-public class UpdatePrice extends AsyncTask<String, String, List<Good>> {
-    private UpdateLists updator;
+public class UpdatePrice extends AsyncTask<String, Integer, List<Good>> {
+    private ViewsManager updator;
     private Button btnUpdate;
 
-    public UpdatePrice(UpdateLists updator, Button btnUpdate) {
+    UpdatePrice(ViewsManager updator, Button btnUpdate) {
         this.updator = updator;
         this.btnUpdate = btnUpdate;
     }
@@ -41,7 +39,7 @@ public class UpdatePrice extends AsyncTask<String, String, List<Good>> {
 
     @Override
     protected void onPostExecute(List<Good> goods) {
-        updator.update();
+        updator.updateData(goods);
         btnUpdate.setText(updator.getContext().getString(R.string.BTN_UPDATE_TITLE));
         btnUpdate.setClickable(true);
     }

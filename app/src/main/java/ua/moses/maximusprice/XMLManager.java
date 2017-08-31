@@ -1,4 +1,4 @@
-package ua.moses.maximusprice.model;
+package ua.moses.maximusprice;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;

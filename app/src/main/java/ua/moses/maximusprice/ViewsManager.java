@@ -3,14 +3,11 @@ package ua.moses.maximusprice;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import ua.moses.maximusprice.model.DataManager;
-import ua.moses.maximusprice.model.DataManagerSQLite;
-import ua.moses.maximusprice.model.Good;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class UpdateLists {
+class ViewsManager {
     private ListView listGroups;
     private ListView listGoods;
     private DataManager priceData;
@@ -19,23 +16,28 @@ public class UpdateLists {
     private String selectedSubGroup = "";
 
 
-    public void setSelectedGroup(String selectedGroup) {
+    void setSelectedGroup(String selectedGroup) {
         this.selectedGroup = selectedGroup;
     }
 
-    public void setSelectedSubGroup(String selectedSubGroup) {
+    void setSelectedSubGroup(String selectedSubGroup) {
         this.selectedSubGroup = selectedSubGroup;
     }
 
 
-    public UpdateLists(ListView listGroups, ListView listGoods, Context context) {
+    ViewsManager(ListView listGroups, ListView listGoods, Context context) {
         this.listGroups = listGroups;
         this.listGoods = listGoods;
-        this.priceData = new DataManagerSQLite(context);
+        this.priceData = new DataManager(context);
         this.context = context;
     }
 
-    public void update(){
+    void updateData(List<Good> goods){
+        priceData.updatePrice(goods);
+        this.update();
+    }
+
+    void update(){
         //update groups
         String[] groupsArray = new String[1];
         if (selectedSubGroup.isEmpty()){
@@ -50,22 +52,22 @@ public class UpdateLists {
         List<String> goodsArray = new ArrayList<>();
         List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
         for (Good good : goods){
-            goodsArray.add(good.getName() + " - " + good.getPrice());
+            goodsArray.add(good.toString());
         }
         adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_list_item_1, goodsArray);
+                android.R.layout.simple_list_item_2, goodsArray);
         listGoods.setAdapter(adapter);
     }
 
-    public Context getContext() {
+    Context getContext() {
         return context;
     }
 
-    public String getSelectedGroup() {
+    String getSelectedGroup() {
         return selectedGroup;
     }
 
-    public String getSelectedSubGroup() {
+    String getSelectedSubGroup() {
         return selectedSubGroup;
     }
 }

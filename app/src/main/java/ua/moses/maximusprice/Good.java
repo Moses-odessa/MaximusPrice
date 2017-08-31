@@ -1,4 +1,4 @@
-package ua.moses.maximusprice.model;
+package ua.moses.maximusprice;
 
 public class Good {
     private int id = 0;
@@ -7,7 +7,7 @@ public class Good {
     private String group = "";
     private String subGroup = "";
     private String description = "";
-    private Availability availability = Availability.OutOfStock;
+    private String availability = "+";
 
     public void setId(int id) {
         this.id = id;
@@ -33,7 +33,7 @@ public class Good {
         this.description = description;
     }
 
-    public void setAvailability(Availability availability) {
+    public void setAvailability(String availability) {
         this.availability = availability;
     }
 
@@ -61,17 +61,12 @@ public class Good {
         return description;
     }
 
-    public Availability getAvailability() {
+    public String getAvailability() {
         return availability;
     }
 
     @Override
     public String toString() {
-        return "Good{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", price=" + price +
-                ", availability=" + availability +
-                '}';
+        return name + " - " + price + " " + availability;
     }
 }
