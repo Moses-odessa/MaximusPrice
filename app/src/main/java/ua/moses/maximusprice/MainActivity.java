@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
+//todo дата актуальности прайса
+//todo выход из группы по кнопке "назад"
 
 public class MainActivity extends Activity {
 
@@ -37,6 +39,7 @@ public class MainActivity extends Activity {
                 } else if (selectedGroup.equalsIgnoreCase("..") && viewsManager.getSelectedSubGroup().isEmpty()){
                     viewsManager.setSelectedGroup("");
                 } else if (viewsManager.getSelectedGroup().isEmpty()) {
+                    viewsManager.setPreviousPosition(position);
                     viewsManager.setSelectedGroup(selectedGroup);
                 } else if (viewsManager.getSelectedSubGroup().isEmpty()) {
                     viewsManager.setSelectedSubGroup(selectedGroup);
@@ -52,7 +55,7 @@ public class MainActivity extends Activity {
                 String selectedGoods = ((TextView) itemClicked.findViewById(R.id.goodTitle)).getText().toString();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
                 builder.setTitle("Описание")
-                        .setMessage(viewsManager.getGoodsDescription(selectedGoods).replace(".", ".\n"))
+                        .setMessage(viewsManager.getGoodsDescription(selectedGoods).replace(". ", ".\n"))
                         .setCancelable(false)
                         .setNegativeButton("ОК",
                                 new DialogInterface.OnClickListener() {

@@ -16,6 +16,7 @@ class ViewsManager {
     private Context context;
     private String selectedGroup = "";
     private String selectedSubGroup = "";
+    private int previousPosition = 0;
 
 
     void setSelectedGroup(String selectedGroup) {
@@ -50,6 +51,11 @@ class ViewsManager {
         ArrayAdapter<String> groupsAdapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_1, groupsArray);
         listGroups.setAdapter(groupsAdapter);
+        if (this.previousPosition > 0 && this.selectedGroup.isEmpty()){
+            listGroups.setSelection(this.previousPosition);
+            this.previousPosition = 0;
+        }
+
         //update goods
         ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
         List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
@@ -63,6 +69,7 @@ class ViewsManager {
                 new String[]{"Title", "Info"},
                 new int[]{R.id.goodTitle, R.id.goodInfo});
         listGoods.setAdapter(goodsAdapter);
+
     }
 
     Context getContext() {
@@ -80,4 +87,9 @@ class ViewsManager {
     String getGoodsDescription(String selectedGoods) {
         return priceData.getDescription(selectedGoods);
     }
+
+    void setPreviousPosition(int previousPosition) {
+        this.previousPosition = previousPosition;
+    }
+
 }
