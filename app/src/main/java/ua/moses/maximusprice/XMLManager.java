@@ -26,6 +26,7 @@ class XMLManager {
         final String PRICE_TAG = "Price";
         final String DESCRIPTION_TAG = "Description";
         final String GOOD_ID_TAG = "Id";
+        final String AVAILABILITY_TAG = "Availability";
         List<Good> result = new ArrayList<>();
         DocumentBuilder documentBuilder;
         Document document;
@@ -62,6 +63,9 @@ class XMLManager {
                             break;
                         case PRICE_TAG:
                             currentGood.setPrice(Integer.parseInt(goodDescription.getTextContent()));
+                            break;
+                        case AVAILABILITY_TAG:
+                            currentGood.setAvailability(goodDescription.getTextContent());
                             break;
                     }
                 }
