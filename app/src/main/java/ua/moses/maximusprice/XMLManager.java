@@ -35,7 +35,6 @@ class XMLManager {
         } catch (ParserConfigurationException | SAXException e) {
             throw new IOException(e.getMessage());
         }
-
         Node root = document.getDocumentElement();
         NodeList goods = root.getChildNodes();
         for (int i = 0; i < goods.getLength(); i++) {

@@ -3,8 +3,10 @@ package ua.moses.maximusprice;
 import android.content.Context;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.SimpleAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 class ViewsManager {
@@ -45,18 +47,22 @@ class ViewsManager {
         } else {
             groupsArray[0] = "..";
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(context,
+        ArrayAdapter<String> groupsAdapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_1, groupsArray);
-        listGroups.setAdapter(adapter);
-        //update goods todo custom layout
-        List<String> goodsArray = new ArrayList<>();
+        listGroups.setAdapter(groupsAdapter);
+        //update goods
+        ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
         List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
         for (Good good : goods){
-            goodsArray.add(good.toString());
+            HashMap<String, String> map = new HashMap<>();
+            map.put("Title", good.getName());
+            map.put("Info", good.getInfo());
+            goodsArray.add(map);
         }
-        adapter = new ArrayAdapter<>(context,
-                android.R.layout.simple_list_item_2, goodsArray);
-        listGoods.setAdapter(adapter);
+        SimpleAdapter goodsAdapter = new SimpleAdapter(context, goodsArray, R.layout.good_list_item,
+                new String[]{"Title", "Info"},
+                new int[]{R.id.goodTitle, R.id.goodInfo});
+        listGoods.setAdapter(goodsAdapter);
     }
 
     Context getContext() {
@@ -69,5 +75,9 @@ class ViewsManager {
 
     String getSelectedSubGroup() {
         return selectedSubGroup;
+    }
+
+    String getGoodsDescription(String selectedGoods) {
+        return priceData.getDescription(selectedGoods);
     }
 }

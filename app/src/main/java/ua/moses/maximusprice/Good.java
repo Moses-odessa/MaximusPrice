@@ -9,64 +9,68 @@ public class Good {
     private String description = "";
     private String availability = "+";
 
-    public void setId(int id) {
+    void setId(int id) {
         this.id = id;
     }
 
-    public void setName(String name) {
+    void setName(String name) {
         this.name = name;
     }
 
-    public void setPrice(double price) {
+    void setPrice(double price) {
         this.price = price;
     }
 
-    public void setGroup(String group) {
+    void setGroup(String group) {
         this.group = group;
     }
 
-    public void setSubGroup(String subGroup) {
+    void setSubGroup(String subGroup) {
         this.subGroup = subGroup;
     }
 
-    public void setDescription(String description) {
+    void setDescription(String description) {
         this.description = description;
     }
 
-    public void setAvailability(String availability) {
+    void setAvailability(String availability) {
         this.availability = availability;
     }
 
-    public int getId() {
+    int getId() {
         return id;
     }
 
-    public String getName() {
+    String getName() {
         return name;
     }
 
-    public double getPrice() {
+    double getPrice() {
         return price;
     }
 
-    public String getGroup() {
+    String getGroup() {
         return group;
     }
 
-    public String getSubGroup() {
+    String getSubGroup() {
         return subGroup;
     }
 
-    public String getDescription() {
+    String getDescription() {
         return description;
     }
 
-    public String getAvailability() {
+    String getAvailability() {
         return availability;
     }
 
     @Override
     public String toString() {
         return name + " - " + price + " " + availability;
+    }
+
+    String getInfo() {
+        return "Цена: " + price + " Наличие: " + availability;
     }
 }

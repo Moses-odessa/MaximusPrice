@@ -96,8 +96,22 @@ public class DataManager extends SQLiteOpenHelper {
         }
     }
 
-    public String getDescription(int goodID) {
-        return null;  //todo
+    String getDescription(String goodName) {
+        String result = "";
+        goodName = goodName.replaceAll("\'", "\'\'");
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT " + PriceEntry.COLUMN_DESCRIPTION
+                + " FROM "
+                + PriceEntry.TABLE_NAME
+                + " WHERE "
+                + PriceEntry.COLUMN_NAME + "='" + goodName + "'";
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor.moveToNext()) {
+            result = cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_DESCRIPTION));
+        }
+        cursor.close();
+        return result;
+
     }
 
     private void addGood( SQLiteDatabase db, Good good) {

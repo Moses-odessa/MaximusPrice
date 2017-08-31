@@ -1,6 +1,8 @@
 package ua.moses.maximusprice;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -47,7 +49,21 @@ public class MainActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
-                //todo ge toast with description
+                String selectedGoods = ((TextView) itemClicked.findViewById(R.id.goodTitle)).getText().toString();
+                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+                builder.setTitle("Описание")
+                        .setMessage(viewsManager.getGoodsDescription(selectedGoods).replace(".", ".\n"))
+                        .setCancelable(false)
+                        .setNegativeButton("ОК",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int id) {
+                                        dialog.cancel();
+                                    }
+                                });
+                AlertDialog infoBox = builder.create();
+                infoBox.show();
+                TextView textInfo = (TextView) infoBox.findViewById(android.R.id.message);
+                textInfo.setTextSize(14);
             }
         });
     }
