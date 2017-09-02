@@ -28,7 +28,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     protected List<Good> doInBackground(String... strings) {
         List<Good> result = new ArrayList<>();
         String link = strings[0];
-        XMLManager xml = new XMLManager(link);
+        XMLManager xml = new XMLManager(link, viewsManager.getContext());
         try {
             result = xml.getGoods();
         } catch (IOException e) {

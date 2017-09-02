@@ -19,9 +19,16 @@
             android:orientation="horizontal">
 
         <Button android:id="@+id/btnUpdate"
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/BTN_UPDATE_TITLE"/>
+        <TextView
+                android:text="@string/ACTUAL_DATE_TITLE"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:id="@+id/textPriceActual"
+                android:textAlignment="viewEnd"
+                android:layout_gravity="end"/>
 
     </LinearLayout>
 
@@ -40,8 +47,5 @@
                 android:layout_height="wrap_content"
                 android:background="@color/colorLight"
                 android:scrollbars="none"/>
-
     </LinearLayout>
-
-
 </LinearLayout>

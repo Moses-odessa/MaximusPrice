@@ -13,9 +13,11 @@ import java.util.List;
 public class DataManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "price.db";
     private static final int DATABASE_VERSION = 1;
+    private Context context;
 
     DataManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
 
@@ -34,7 +36,7 @@ public class DataManager extends SQLiteOpenHelper {
                     + PriceEntry._ID;
             columnName = PriceEntry.COLUMN_GROUP;
         } else {
-            sql = "SELECT '..' as " + PriceEntry.COLUMN_SUBGROUP
+            sql = "SELECT '" + context.getString(R.string.ROOT_DIR) + "' as " + PriceEntry.COLUMN_SUBGROUP
                     + " UNION SELECT DISTINCT "
                     + PriceEntry.COLUMN_SUBGROUP
                     + " FROM "
@@ -50,6 +52,7 @@ public class DataManager extends SQLiteOpenHelper {
             list.add(cursor.getString(cursor.getColumnIndex(columnName)));
         }
         cursor.close();
+        db.close();
         String[] result = new String[list.size()];
         for (int i = 0; i < list.size(); i++) {
             result[i] = list.get(i);
@@ -84,7 +87,7 @@ public class DataManager extends SQLiteOpenHelper {
             result.add(good);
         }
         cursor.close();
-
+        db.close();
         return result;
     }
 
@@ -94,6 +97,7 @@ public class DataManager extends SQLiteOpenHelper {
         for (Good good : goods){
             addGood(db, good);
         }
+        db.close();
     }
 
     String getDescription(String goodName) {
@@ -110,6 +114,7 @@ public class DataManager extends SQLiteOpenHelper {
             result = cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_DESCRIPTION));
         }
         cursor.close();
+        db.close();
         return result;
 
     }
@@ -146,6 +151,5 @@ public class DataManager extends SQLiteOpenHelper {
         Log.w("SQLite", "Обновляемся с версии " + oldVersion + " на версию " + newVersion);
         db.execSQL("DROP TABLE IF IT EXISTS " + PriceEntry.TABLE_NAME);
         onCreate(db);
-
     }
 }

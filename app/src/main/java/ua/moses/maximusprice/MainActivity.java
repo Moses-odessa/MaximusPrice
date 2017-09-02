@@ -3,6 +3,7 @@ package ua.moses.maximusprice;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
@@ -19,7 +20,9 @@ public class MainActivity extends Activity {
         final Button btnUpdate = (Button) findViewById(R.id.btnUpdate);
         final ListView listGroups = (ListView) findViewById(R.id.listGroups);
         final ListView listGoods = (ListView) findViewById(R.id.listGoods);
-        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, this);
+        final TextView textPriceActual = (TextView) findViewById(R.id.textPriceActual);
+
+        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, this);
         viewsManager.update();
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
@@ -34,9 +37,9 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
                 String selectedGroup = ((TextView) itemClicked).getText().toString();
-                if (selectedGroup.equalsIgnoreCase("..") && !viewsManager.getSelectedSubGroup().isEmpty()){
+                if (selectedGroup.equalsIgnoreCase(getString(R.string.ROOT_DIR)) && !viewsManager.getSelectedSubGroup().isEmpty()){
                     viewsManager.setSelectedSubGroup("");
-                } else if (selectedGroup.equalsIgnoreCase("..") && viewsManager.getSelectedSubGroup().isEmpty()){
+                } else if (selectedGroup.equalsIgnoreCase(getString(R.string.ROOT_DIR)) && viewsManager.getSelectedSubGroup().isEmpty()){
                     viewsManager.setSelectedGroup("");
                 } else if (viewsManager.getSelectedGroup().isEmpty()) {
                     viewsManager.setPreviousPosition(position);
@@ -70,5 +73,4 @@ public class MainActivity extends Activity {
             }
         });
     }
-
 }
