@@ -8,6 +8,7 @@ import android.os.AsyncTask;
 import android.widget.Toast;
 
 import java.io.IOException;
+import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLConnection;
 import java.text.ParseException;
@@ -18,6 +19,7 @@ import java.util.*;
 public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     private ViewsManager viewsManager;
     private Boolean sameDate = false;
+    private String errorString;
 
     UpdatePriceManager(ViewsManager viewsManager) {
         this.viewsManager = viewsManager;
@@ -33,8 +35,8 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     @Override
     protected List<Good> doInBackground(String... strings) {
         List<Good> result = null;
-        RemoteXMLManager xml = new RemoteXMLManager(getLink());
         try {
+            RemoteXMLManager xml = new RemoteXMLManager(getLink());
             if (!viewsManager.getSavedDate().equals(getNewDate())) {
                 result = xml.getGoods();
                 updateActualDate(getNewDate());
@@ -42,7 +44,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
                 sameDate = true;
             }
         } catch (IOException e) {
-            //do nothing
+            errorString = e.getMessage();
         }
         return result;
     }
@@ -58,7 +60,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
             if (sameDate) {
                 Toast.makeText(viewsManager.getContext(), viewsManager.getContext().getText(R.string.SAME_DATE_WARNING), Toast.LENGTH_SHORT).show();
             } else {
-                Toast.makeText(viewsManager.getContext(), viewsManager.getContext().getText(R.string.ERROR_CONNECTION), Toast.LENGTH_SHORT).show();
+                Toast.makeText(viewsManager.getContext(), viewsManager.getContext().getText(R.string.ERROR_CONNECTION) + errorString, Toast.LENGTH_SHORT).show();
             }
         }
         viewsManager.getBtnUpdate().setText(viewsManager.getContext().getString(R.string.BTN_UPDATE_TITLE));
@@ -73,16 +75,9 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     }
 
     private Date getNewDate() throws IOException {
-        URL obj = new URL(getLink());
-        URLConnection conn = obj.openConnection();
-        Map<String, List<String>> map = conn.getHeaderFields();
-        List<String> lastModified = map.get("Last-Modified");
-        SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.getDefault());
-        try {
-            return dateFormat.parse(lastModified.get(0));
-        } catch (ParseException | IndexOutOfBoundsException e) {
-            throw new IOException(e.getMessage());
-        }
+        URL url = new URL(getLink());
+        HttpURLConnection httpCon = (HttpURLConnection) url.openConnection();
+        return new Date(httpCon.getLastModified());
     }
 
     private String getLink() {
