@@ -29,23 +29,23 @@ public class DataManager extends SQLiteOpenHelper {
         String columnName;
         if (parentGroup.isEmpty()) {
             sql = "SELECT DISTINCT "
-                    + PriceEntry.COLUMN_GROUP
+                    + DataPriceEntry.COLUMN_GROUP
                     + " FROM "
-                    + PriceEntry.TABLE_NAME
+                    + DataPriceEntry.TABLE_NAME
                     + " ORDER BY "
-                    + PriceEntry._ID;
-            columnName = PriceEntry.COLUMN_GROUP;
+                    + DataPriceEntry._ID;
+            columnName = DataPriceEntry.COLUMN_GROUP;
         } else {
-            sql = "SELECT '" + context.getString(R.string.ROOT_DIR) + "' as " + PriceEntry.COLUMN_SUBGROUP
+            sql = "SELECT '" + context.getString(R.string.ROOT_DIR) + "' as " + DataPriceEntry.COLUMN_SUBGROUP
                     + " UNION SELECT DISTINCT "
-                    + PriceEntry.COLUMN_SUBGROUP
+                    + DataPriceEntry.COLUMN_SUBGROUP
                     + " FROM "
-                    + PriceEntry.TABLE_NAME
+                    + DataPriceEntry.TABLE_NAME
                     + " WHERE "
-                    + PriceEntry.COLUMN_GROUP + "='" + parentGroup +"' AND "
-                    + PriceEntry.COLUMN_SUBGROUP + "<>''"
+                    + DataPriceEntry.COLUMN_GROUP + "='" + parentGroup +"' AND "
+                    + DataPriceEntry.COLUMN_SUBGROUP + "<>''"
                     + " ORDER BY 1";
-            columnName = PriceEntry.COLUMN_SUBGROUP;
+            columnName = DataPriceEntry.COLUMN_SUBGROUP;
         }
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
@@ -68,22 +68,22 @@ public class DataManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getReadableDatabase();
         String sql = "SELECT * "
                 + " FROM "
-                + PriceEntry.TABLE_NAME
+                + DataPriceEntry.TABLE_NAME
                 + " WHERE "
-                + PriceEntry.COLUMN_GROUP + "='" + group + "' and "
-                + PriceEntry.COLUMN_SUBGROUP + "='" + subGroup + "'"
+                + DataPriceEntry.COLUMN_GROUP + "='" + group + "' and "
+                + DataPriceEntry.COLUMN_SUBGROUP + "='" + subGroup + "'"
                 + " ORDER BY "
-                + PriceEntry._ID;
+                + DataPriceEntry._ID;
         Cursor cursor = db.rawQuery(sql, null);
         while (cursor.moveToNext()) {
             Good good = new Good();
-            good.setId(cursor.getInt(cursor.getColumnIndex(PriceEntry.COLUMN_GOOD_ID)));
-            good.setName(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_NAME)));
-            good.setPrice(cursor.getInt(cursor.getColumnIndex(PriceEntry.COLUMN_PRICE)));
-            good.setGroup(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_GROUP)));
-            good.setSubGroup(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_SUBGROUP)));
-            good.setDescription(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_DESCRIPTION)));
-            good.setAvailability(cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_AVALAIBILITY)));
+            good.setId(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_GOOD_ID)));
+            good.setName(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_NAME)));
+            good.setPrice(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_PRICE)));
+            good.setGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_GROUP)));
+            good.setSubGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_SUBGROUP)));
+            good.setDescription(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_DESCRIPTION)));
+            good.setAvailability(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_AVALAIBILITY)));
             result.add(good);
         }
         cursor.close();
@@ -93,7 +93,7 @@ public class DataManager extends SQLiteOpenHelper {
 
     void updatePrice(List<Good> goods) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(PriceEntry.TABLE_NAME, null, null);
+        db.delete(DataPriceEntry.TABLE_NAME, null, null);
         for (Good good : goods){
             addGood(db, good);
         }
@@ -104,14 +104,14 @@ public class DataManager extends SQLiteOpenHelper {
         String result = "";
         goodName = goodName.replaceAll("\'", "\'\'");
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT " + PriceEntry.COLUMN_DESCRIPTION
+        String sql = "SELECT " + DataPriceEntry.COLUMN_DESCRIPTION
                 + " FROM "
-                + PriceEntry.TABLE_NAME
+                + DataPriceEntry.TABLE_NAME
                 + " WHERE "
-                + PriceEntry.COLUMN_NAME + "='" + goodName + "'";
+                + DataPriceEntry.COLUMN_NAME + "='" + goodName + "'";
         Cursor cursor = db.rawQuery(sql, null);
         if (cursor.moveToNext()) {
-            result = cursor.getString(cursor.getColumnIndex(PriceEntry.COLUMN_DESCRIPTION));
+            result = cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_DESCRIPTION));
         }
         cursor.close();
         db.close();
@@ -121,35 +121,35 @@ public class DataManager extends SQLiteOpenHelper {
 
     private void addGood( SQLiteDatabase db, Good good) {
         ContentValues values = new ContentValues();
-        values.put(PriceEntry.COLUMN_GOOD_ID, good.getId());
-        values.put(PriceEntry.COLUMN_NAME, good.getName());
-        values.put(PriceEntry.COLUMN_PRICE, good.getPrice());
-        values.put(PriceEntry.COLUMN_GROUP, good.getGroup());
-        values.put(PriceEntry.COLUMN_SUBGROUP, good.getSubGroup());
-        values.put(PriceEntry.COLUMN_DESCRIPTION, good.getDescription());
-        values.put(PriceEntry.COLUMN_AVALAIBILITY, good.getAvailability());
+        values.put(DataPriceEntry.COLUMN_GOOD_ID, good.getId());
+        values.put(DataPriceEntry.COLUMN_NAME, good.getName());
+        values.put(DataPriceEntry.COLUMN_PRICE, good.getPrice());
+        values.put(DataPriceEntry.COLUMN_GROUP, good.getGroup());
+        values.put(DataPriceEntry.COLUMN_SUBGROUP, good.getSubGroup());
+        values.put(DataPriceEntry.COLUMN_DESCRIPTION, good.getDescription());
+        values.put(DataPriceEntry.COLUMN_AVALAIBILITY, good.getAvailability());
 
-        db.insert(PriceEntry.TABLE_NAME, null, values);
+        db.insert(DataPriceEntry.TABLE_NAME, null, values);
     }
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        String SQL_CREATE_PRICE_TABLE = "CREATE TABLE " + PriceEntry.TABLE_NAME + " ("
-                + PriceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + PriceEntry.COLUMN_GOOD_ID + " INTEGER NOT NULL DEFAULT 0, "
-                + PriceEntry.COLUMN_NAME + " TEXT NOT NULL, "
-                + PriceEntry.COLUMN_PRICE + " REAL NOT NULL, "
-                + PriceEntry.COLUMN_GROUP + " TEXT NOT NULL, "
-                + PriceEntry.COLUMN_SUBGROUP + " TEXT NOT NULL, "
-                + PriceEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
-                + PriceEntry.COLUMN_AVALAIBILITY + " TEXT NOT NULL);";
+        String SQL_CREATE_PRICE_TABLE = "CREATE TABLE " + DataPriceEntry.TABLE_NAME + " ("
+                + DataPriceEntry._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + DataPriceEntry.COLUMN_GOOD_ID + " INTEGER NOT NULL DEFAULT 0, "
+                + DataPriceEntry.COLUMN_NAME + " TEXT NOT NULL, "
+                + DataPriceEntry.COLUMN_PRICE + " REAL NOT NULL, "
+                + DataPriceEntry.COLUMN_GROUP + " TEXT NOT NULL, "
+                + DataPriceEntry.COLUMN_SUBGROUP + " TEXT NOT NULL, "
+                + DataPriceEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + DataPriceEntry.COLUMN_AVALAIBILITY + " TEXT NOT NULL);";
         db.execSQL(SQL_CREATE_PRICE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w("SQLite", "Обновляемся с версии " + oldVersion + " на версию " + newVersion);
-        db.execSQL("DROP TABLE IF IT EXISTS " + PriceEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF IT EXISTS " + DataPriceEntry.TABLE_NAME);
         onCreate(db);
     }
 }
