@@ -3,13 +3,12 @@ package ua.moses.maximusprice;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-//todo дата актуальности прайса
 //todo выход из группы по кнопке "назад"
+//todo формирование и отправка заказа
 
 public class MainActivity extends Activity {
 
@@ -22,13 +21,13 @@ public class MainActivity extends Activity {
         final ListView listGoods = (ListView) findViewById(R.id.listGoods);
         final TextView textPriceActual = (TextView) findViewById(R.id.textPriceActual);
 
-        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, this);
+        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, btnUpdate, this);
         viewsManager.update();
 
         btnUpdate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new UpdatePriceManager(viewsManager, btnUpdate).execute(getString(R.string.PRICE_LINK));
+                viewsManager.updatePrice();
             }
         });
 

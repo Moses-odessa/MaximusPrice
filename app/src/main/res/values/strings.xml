@@ -6,7 +6,10 @@
     <string name="BTN_UPDATE_TITLE">Обновить ПРАЙС!</string>
     <string name="BTN_UPDATE_LOADING_TITLE">Идет загрузка....</string>
     <string name="CONFIRM_UPDATE_MESSAGE">Обновленный прайс-лист загружен</string>
-    <string name="ACTUAL_DATE_TITLE">Актуально на:\n</string>
-    <string name="ACTUAL_DATE_VARIABLE">ACTUAL_DATE</string>
+    <string name="ACTUAL_DATE_TITLE">Остатки на:\n</string>
+    <string name="ACTUAL_DATE_VARIABLE">ACTUAL_PRICE_DATE</string>
+    <string name="SAME_DATE_WARNING">У вас уже самая актуальная версия прайса!</string>
+    <string name="ERROR_CONNECTION">Невозможно получить данные с сервера</string>
+    <string name="PRICE_WAS_UPDATED_MESSAGE">Прайс был успешно обновлен. Дата актуальности прайса:</string>
 
 </resources>

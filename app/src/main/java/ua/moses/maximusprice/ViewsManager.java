@@ -2,21 +2,16 @@ package ua.moses.maximusprice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
-import android.widget.SimpleAdapter;
-import android.widget.TextView;
+import android.widget.*;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-
-import static android.content.Context.MODE_PRIVATE;
+import java.text.SimpleDateFormat;
+import java.util.*;
 
 class ViewsManager {
     private ListView listGroups;
     private ListView listGoods;
     private TextView textPriceActual;
+    private Button btnUpdate;
     private DataManager priceData;
     private Context context;
     private String selectedGroup = "";
@@ -33,27 +28,32 @@ class ViewsManager {
     }
 
 
-    ViewsManager(ListView listGroups, ListView listGoods, TextView textPriceActual, Context context) {
+    Button getBtnUpdate() {
+        return btnUpdate;
+    }
+
+    ViewsManager(ListView listGroups, ListView listGoods, TextView textPriceActual, Button btnUpdate, Context context) {
         this.listGroups = listGroups;
         this.listGoods = listGoods;
         this.textPriceActual = textPriceActual;
+        this.btnUpdate = btnUpdate;
         this.priceData = new DataManager(context);
         this.context = context;
     }
 
-    void updateData(List<Good> goods){
+    void updateData(List<Good> goods) {
         priceData.updatePrice(goods);
         this.update();
     }
 
-    void update(){
+    void update() {
         //updates text
         textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
-        textPriceActual.append(getActualPriceDate());
+        textPriceActual.append(getFormattedDate(getSavedDate()));
 
         //update groups
         String[] groupsArray = new String[1];
-        if (selectedSubGroup.isEmpty()){
+        if (selectedSubGroup.isEmpty()) {
             groupsArray = priceData.getGroups(selectedGroup);
         } else {
             groupsArray[0] = context.getString(R.string.ROOT_DIR);
@@ -61,7 +61,7 @@ class ViewsManager {
         ArrayAdapter<String> groupsAdapter = new ArrayAdapter<>(context,
                 android.R.layout.simple_list_item_1, groupsArray);
         listGroups.setAdapter(groupsAdapter);
-        if (this.previousPosition > 0 && this.selectedGroup.isEmpty()){
+        if (this.previousPosition > 0 && this.selectedGroup.isEmpty()) {
             listGroups.setSelection(this.previousPosition);
             this.previousPosition = 0;
         }
@@ -69,7 +69,7 @@ class ViewsManager {
         //update goods
         ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
         List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
-        for (Good good : goods){
+        for (Good good : goods) {
             HashMap<String, String> map = new HashMap<>();
             map.put("Title", good.getName());
             map.put("Info", good.getInfo());
@@ -102,11 +102,17 @@ class ViewsManager {
         this.previousPosition = previousPosition;
     }
 
-    private String getActualPriceDate() {
-        String result;
-        SharedPreferences sPref = context.getSharedPreferences("sPref", MODE_PRIVATE);
-        result = sPref.getString(context.getString(R.string.ACTUAL_DATE_VARIABLE), "");
-        return result;
+    void updatePrice() {
+        new UpdatePriceManager(this).execute(context.getString(R.string.PRICE_LINK));
     }
 
+    Date getSavedDate() {
+        SharedPreferences sPref = context.getSharedPreferences("sPref", Context.MODE_PRIVATE);
+        return new Date(sPref.getLong(context.getString(R.string.ACTUAL_DATE_VARIABLE), 0));
+    }
+
+    String getFormattedDate(Date date) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        return dateFormat.format(date);
+    }
 }

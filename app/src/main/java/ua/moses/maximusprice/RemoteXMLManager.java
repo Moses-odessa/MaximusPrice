@@ -11,19 +11,13 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 import java.io.IOException;
-import java.net.URL;
-import java.net.URLConnection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-class XMLManager {
+class RemoteXMLManager {
     private String xmlFileName;
-    private Context context;
 
-    XMLManager(String xmlFileName, Context context) {
+    RemoteXMLManager(String xmlFileName) {
         this.xmlFileName = xmlFileName;
-        this.context = context;
     }
 
     List<Good> getGoods() throws IOException {
@@ -40,7 +34,6 @@ class XMLManager {
         try {
             documentBuilder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
             document = documentBuilder.parse(xmlFileName);
-            updateActualDate();
         } catch (ParserConfigurationException | SAXException e) {
             throw new IOException(e.getMessage());
         }
@@ -79,33 +72,8 @@ class XMLManager {
                 }
                 result.add(currentGood);
             }
-
         }
-
         return result;
-    }
-
-    private void updateActualDate() throws IOException {
-        String actualDate;
-            URL obj = new URL(xmlFileName);
-            URLConnection conn = obj.openConnection();
-            Map<String, List<String>> map = conn.getHeaderFields();
-            List<String> lastModified = map.get("Last-Modified");
-            if (lastModified != null && lastModified.size() > 0) {
-                SimpleDateFormat dateFormat = new SimpleDateFormat("EEE, dd MMM yyyy HH:mm:ss zzz", Locale.getDefault());
-                Date date;
-                try {
-                    date = dateFormat.parse(lastModified.get(0));
-                } catch (ParseException e) {
-                    date = new Date();
-                }
-                dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
-                actualDate = dateFormat.format(date);
-                SharedPreferences sPref = context.getSharedPreferences("sPref", Context.MODE_PRIVATE);
-                SharedPreferences.Editor ed = sPref.edit();
-                ed.putString(context.getString(R.string.ACTUAL_DATE_VARIABLE), actualDate);
-                ed.commit();
-            }
     }
 
 }
