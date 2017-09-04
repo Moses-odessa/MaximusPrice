@@ -56,10 +56,10 @@ public class MainActivity extends Activity {
                                     long id) {
                 String selectedGoods = ((TextView) itemClicked.findViewById(R.id.goodTitle)).getText().toString();
                 AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle("Описание")
+                builder.setTitle(R.string.DESCRIPTION_TITLE)
                         .setMessage(viewsManager.getGoodsDescription(selectedGoods).replace(". ", ".\n"))
                         .setCancelable(false)
-                        .setNegativeButton("ОК",
+                        .setNegativeButton(R.string.BTN_OK,
                                 new DialogInterface.OnClickListener() {
                                     public void onClick(DialogInterface dialog, int id) {
                                         dialog.cancel();

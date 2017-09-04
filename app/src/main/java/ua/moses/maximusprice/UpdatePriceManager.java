@@ -1,8 +1,6 @@
 package ua.moses.maximusprice;
 
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.widget.Toast;
@@ -10,12 +8,9 @@ import android.widget.Toast;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.net.URLConnection;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 
-//http://developer.alexanderklimov.ru/android/theory/asynctask.php
+//http://developer.alexanderklimov.ru/android/theory/asynctask.php наглядная картинка
 public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     private ViewsManager viewsManager;
     private Boolean sameDate = false;

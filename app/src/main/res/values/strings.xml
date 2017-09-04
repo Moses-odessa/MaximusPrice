@@ -11,5 +11,7 @@
     <string name="SAME_DATE_WARNING">У вас уже самая актуальная версия прайса!</string>
     <string name="ERROR_CONNECTION">Невозможно получить данные с сервера: </string>
     <string name="PRICE_WAS_UPDATED_MESSAGE">Прайс был успешно обновлен. Дата актуальности прайса:</string>
+    <string name="DESCRIPTION_TITLE">Описание</string>
+    <string name="BTN_OK">OK</string>
 
 </resources>
