@@ -12,7 +12,7 @@ import java.util.Date;
 public class CheckNewPrice extends AsyncTask <String, Void, Date> {
     private ViewsManager viewsManager;
 
-    public CheckNewPrice(ViewsManager viewsManager) {
+    CheckNewPrice(ViewsManager viewsManager) {
         this.viewsManager = viewsManager;
     }
 
@@ -29,8 +29,10 @@ public class CheckNewPrice extends AsyncTask <String, Void, Date> {
 
     @Override
     protected void onPostExecute(Date date){
-        updateNewDate(date);
-        viewsManager.update();
+        if (date.getTime() > viewsManager.getNewDate().getTime()) {
+            updateNewDate(date);
+            viewsManager.update();
+        }
     }
 
     private void updateNewDate(Date date) {
