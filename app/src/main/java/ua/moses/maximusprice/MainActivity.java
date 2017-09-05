@@ -13,7 +13,7 @@ import java.util.TimerTask;
 
 //todo выход из группы по кнопке "назад"  - не уверен что нужно
 //todo формирование и отправка заказа
-//todo оповещение о наличии новых остатков таймер и запус асинхронной проги
+
 
 public class MainActivity extends Activity {
 
@@ -90,6 +90,6 @@ public class MainActivity extends Activity {
                     }
                 });
             }
-        }, 0L, 60L * 1000);
+        }, 0L, 60L * 10000);
     }
 }

@@ -88,7 +88,7 @@ class ViewsManager {
     void updateText() {
         if (getNewDate().getTime() > getActualDate().getTime()){
             textPriceActual.setText(R.string.NEW_DATE_TITLE);
-            textPriceActual.append(getFormattedDate(getActualDate()));
+            textPriceActual.append(getFormattedDate(getNewDate()));
             textPriceActual.setTextColor(Color.RED);
         } else {
             textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
