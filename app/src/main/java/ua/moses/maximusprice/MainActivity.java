@@ -7,8 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.*;
 
-//todo выход из группы по кнопке "назад"
+import java.util.Timer;
+import java.util.TimerTask;
+
+//todo выход из группы по кнопке "назад"  - не уверен что нужно
 //todo формирование и отправка заказа
+//todo оповещение о наличии новых остатков таймер и запус асинхронной проги
 
 public class MainActivity extends Activity {
 
@@ -71,5 +75,14 @@ public class MainActivity extends Activity {
                 textInfo.setTextSize(14);
             }
         });
+
+        //Timer
+        Timer checkUpdateTimer = new Timer();
+        checkUpdateTimer.schedule(new TimerTask() {
+            @Override
+            public void run() {
+                new CheckNewPrice(viewsManager).execute(getString(R.string.PRICE_LINK));
+            }
+        }, 0L, 60L * 10000);
     }
 }

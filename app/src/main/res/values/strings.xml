@@ -13,5 +13,7 @@
     <string name="PRICE_WAS_UPDATED_MESSAGE">Прайс был успешно обновлен. Дата актуальности прайса:</string>
     <string name="DESCRIPTION_TITLE">Описание</string>
     <string name="BTN_OK">OK</string>
+    <string name="NEW_DATE_VARIABLE">NEW_PRICE_DATE</string>
+    <string name="NEW_DATE_TITLE">Доступно обновление:\\n</string>
 
 </resources>

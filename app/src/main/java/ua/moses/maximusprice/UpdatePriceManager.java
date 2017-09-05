@@ -32,7 +32,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
         List<Good> result = null;
         try {
             RemoteXMLManager xml = new RemoteXMLManager(getLink());
-            if (!viewsManager.getSavedDate().equals(getNewDate())) {
+            if (!viewsManager.getActualDate().equals(getNewDate())) {
                 result = xml.getGoods();
                 updateActualDate(getNewDate());
             } else {
@@ -49,7 +49,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
         if (goods != null && goods.size() > 0) {
             viewsManager.updateData(goods);
             Toast.makeText(viewsManager.getContext(),
-                    viewsManager.getContext().getText(R.string.PRICE_WAS_UPDATED_MESSAGE) + viewsManager.getFormattedDate(viewsManager.getSavedDate()),
+                    viewsManager.getContext().getText(R.string.PRICE_WAS_UPDATED_MESSAGE) + viewsManager.getFormattedDate(viewsManager.getActualDate()),
                     Toast.LENGTH_SHORT).show();
         } else {
             if (sameDate) {

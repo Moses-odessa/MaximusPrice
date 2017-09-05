@@ -2,6 +2,7 @@ package ua.moses.maximusprice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.widget.*;
 
 import java.text.SimpleDateFormat;
@@ -48,8 +49,15 @@ class ViewsManager {
 
     void update() {
         //updates text
-        textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
-        textPriceActual.append(getFormattedDate(getSavedDate()));
+        if (getNewDate().getTime() > getActualDate().getTime()){
+            textPriceActual.setText(R.string.NEW_DATE_TITLE);
+            textPriceActual.append(getFormattedDate(getActualDate()));
+            textPriceActual.setTextColor(Color.RED);
+        } else {
+            textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
+            textPriceActual.append(getFormattedDate(getActualDate()));
+            textPriceActual.setTextColor(Color.GRAY);
+        }
 
         //update groups
         String[] groupsArray = new String[1];
@@ -106,13 +114,18 @@ class ViewsManager {
         new UpdatePriceManager(this).execute(context.getString(R.string.PRICE_LINK));
     }
 
-    Date getSavedDate() {
+    Date getActualDate() {
         SharedPreferences sPref = context.getSharedPreferences("sPref", Context.MODE_PRIVATE);
         return new Date(sPref.getLong(context.getString(R.string.ACTUAL_DATE_VARIABLE), 0));
     }
 
+    Date getNewDate() {
+        SharedPreferences sPref = context.getSharedPreferences("sPref", Context.MODE_PRIVATE);
+        return new Date(sPref.getLong(context.getString(R.string.NEW_DATE_VARIABLE), 0));
+    }
+
     String getFormattedDate(Date date) {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault());
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(date);
     }
 }
