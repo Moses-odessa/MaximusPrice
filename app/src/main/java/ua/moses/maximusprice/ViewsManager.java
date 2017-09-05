@@ -48,18 +48,28 @@ class ViewsManager {
     }
 
     void update() {
-        //updates text
-        if (getNewDate().getTime() > getActualDate().getTime()){
-            textPriceActual.setText(R.string.NEW_DATE_TITLE);
-            textPriceActual.append(getFormattedDate(getActualDate()));
-            textPriceActual.setTextColor(Color.RED);
-        } else {
-            textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
-            textPriceActual.append(getFormattedDate(getActualDate()));
-            textPriceActual.setTextColor(Color.GRAY);
-        }
+        updateText();
+        updateGroups();
+        updateGoods();
 
-        //update groups
+    }
+
+    private void updateGoods() {
+        ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
+        List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
+        for (Good good : goods) {
+            HashMap<String, String> map = new HashMap<>();
+            map.put("Title", good.getName());
+            map.put("Info", good.getInfo());
+            goodsArray.add(map);
+        }
+        SimpleAdapter goodsAdapter = new SimpleAdapter(context, goodsArray, R.layout.good_list_item,
+                new String[]{"Title", "Info"},
+                new int[]{R.id.goodTitle, R.id.goodInfo});
+        listGoods.setAdapter(goodsAdapter);
+    }
+
+    private void updateGroups() {
         String[] groupsArray = new String[1];
         if (selectedSubGroup.isEmpty()) {
             groupsArray = priceData.getGroups(selectedGroup);
@@ -73,21 +83,18 @@ class ViewsManager {
             listGroups.setSelection(this.previousPosition);
             this.previousPosition = 0;
         }
+    }
 
-        //update goods
-        ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
-        List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
-        for (Good good : goods) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("Title", good.getName());
-            map.put("Info", good.getInfo());
-            goodsArray.add(map);
+    void updateText() {
+        if (getNewDate().getTime() > getActualDate().getTime()){
+            textPriceActual.setText(R.string.NEW_DATE_TITLE);
+            textPriceActual.append(getFormattedDate(getActualDate()));
+            textPriceActual.setTextColor(Color.RED);
+        } else {
+            textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
+            textPriceActual.append(getFormattedDate(getActualDate()));
+            textPriceActual.setTextColor(Color.BLACK);
         }
-        SimpleAdapter goodsAdapter = new SimpleAdapter(context, goodsArray, R.layout.good_list_item,
-                new String[]{"Title", "Info"},
-                new int[]{R.id.goodTitle, R.id.goodInfo});
-        listGoods.setAdapter(goodsAdapter);
-
     }
 
     Context getContext() {

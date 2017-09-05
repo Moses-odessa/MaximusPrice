@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.*;
 
@@ -40,9 +41,9 @@ public class MainActivity extends Activity {
             public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
                                     long id) {
                 String selectedGroup = ((TextView) itemClicked).getText().toString();
-                if (selectedGroup.equalsIgnoreCase(getString(R.string.ROOT_DIR)) && !viewsManager.getSelectedSubGroup().isEmpty()){
+                if (selectedGroup.equalsIgnoreCase(getString(R.string.ROOT_DIR)) && !viewsManager.getSelectedSubGroup().isEmpty()) {
                     viewsManager.setSelectedSubGroup("");
-                } else if (selectedGroup.equalsIgnoreCase(getString(R.string.ROOT_DIR)) && viewsManager.getSelectedSubGroup().isEmpty()){
+                } else if (selectedGroup.equalsIgnoreCase(getString(R.string.ROOT_DIR)) && viewsManager.getSelectedSubGroup().isEmpty()) {
                     viewsManager.setSelectedGroup("");
                 } else if (viewsManager.getSelectedGroup().isEmpty()) {
                     viewsManager.setPreviousPosition(position);
@@ -77,12 +78,18 @@ public class MainActivity extends Activity {
         });
 
         //Timer
+        final Handler uiHandler = new Handler();
         Timer checkUpdateTimer = new Timer();
         checkUpdateTimer.schedule(new TimerTask() {
             @Override
             public void run() {
-                new CheckNewPrice(viewsManager).execute(getString(R.string.PRICE_LINK));
+                uiHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        new CheckNewPrice(viewsManager).execute(getString(R.string.PRICE_LINK));
+                    }
+                });
             }
-        }, 0L, 60L * 10000);
+        }, 0L, 60L * 1000);
     }
 }

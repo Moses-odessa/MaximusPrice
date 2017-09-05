@@ -31,7 +31,7 @@ public class CheckNewPrice extends AsyncTask <String, Void, Date> {
     protected void onPostExecute(Date date){
         if (date.getTime() > viewsManager.getNewDate().getTime()) {
             updateNewDate(date);
-            viewsManager.update();
+            viewsManager.updateText();
         }
     }
 
