@@ -9,26 +9,22 @@
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingTop="@dimen/activity_vertical_margin"
         android:paddingBottom="@dimen/activity_vertical_margin"
-        android:background="@color/colorAccent"
+        android:background="@color/colorPrimaryDark"
         tools:context="ua.moses.maximusprice.MainActivity"
         android:orientation="vertical">
     <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimaryDark"
             android:orientation="horizontal">
 
-        <Button android:id="@+id/btnUpdate"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/BTN_UPDATE_TITLE"/>
         <TextView
                 android:text="@string/ACTUAL_DATE_TITLE"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:id="@+id/textPriceActual"
-                android:textAlignment="viewEnd"
-                android:layout_gravity="end"/>
+                android:background="@color/colorPrimary"
+                android:textAlignment="center"
+                android:layout_gravity="center"/>
 
     </LinearLayout>
 

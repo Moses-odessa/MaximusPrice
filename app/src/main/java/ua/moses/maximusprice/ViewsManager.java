@@ -2,7 +2,7 @@ package ua.moses.maximusprice;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.Color;
+import android.support.v4.content.ContextCompat;
 import android.widget.*;
 
 import java.text.SimpleDateFormat;
@@ -12,7 +12,6 @@ class ViewsManager {
     private ListView listGroups;
     private ListView listGoods;
     private TextView textPriceActual;
-    private Button btnUpdate;
     private DataManager priceData;
     private Context context;
     private String selectedGroup = "";
@@ -28,30 +27,28 @@ class ViewsManager {
         this.selectedSubGroup = selectedSubGroup;
     }
 
-
-    Button getBtnUpdate() {
-        return btnUpdate;
-    }
-
-    ViewsManager(ListView listGroups, ListView listGoods, TextView textPriceActual, Button btnUpdate, Context context) {
+    ViewsManager(ListView listGroups, ListView listGoods, TextView textPriceActual, Context context) {
         this.listGroups = listGroups;
         this.listGoods = listGoods;
         this.textPriceActual = textPriceActual;
-        this.btnUpdate = btnUpdate;
         this.priceData = new DataManager(context);
         this.context = context;
     }
 
-    void updateData(List<Good> goods) {
+    void updatePrice(List<Good> goods) {
         priceData.updatePrice(goods);
         this.update();
     }
 
     void update() {
         updateText();
+        updateDataViews();
+
+    }
+
+    void updateDataViews() {
         updateGroups();
         updateGoods();
-
     }
 
     private void updateGoods() {
@@ -87,13 +84,12 @@ class ViewsManager {
 
     void updateText() {
         if (getNewDate().getTime() > getActualDate().getTime()){
-            textPriceActual.setText(R.string.NEW_DATE_TITLE);
-            textPriceActual.append(getFormattedDate(getNewDate()));
-            textPriceActual.setTextColor(Color.RED);
+            textPriceActual.setText(String.format(context.getString(R.string.NEW_DATE_TITLE), getFormattedDate(getNewDate())));
+            textPriceActual.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
+
         } else {
-            textPriceActual.setText(R.string.ACTUAL_DATE_TITLE);
-            textPriceActual.append(getFormattedDate(getActualDate()));
-            textPriceActual.setTextColor(Color.BLACK);
+            textPriceActual.setText(String.format(context.getString(R.string.ACTUAL_DATE_TITLE), getFormattedDate(getActualDate())));
+            textPriceActual.setBackgroundColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
         }
     }
 
@@ -134,5 +130,9 @@ class ViewsManager {
     String getFormattedDate(Date date) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault());
         return dateFormat.format(date);
+    }
+
+    TextView getTextPriceActual() {
+        return textPriceActual;
     }
 }

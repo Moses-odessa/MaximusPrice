@@ -23,8 +23,8 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-        viewsManager.getBtnUpdate().setText(viewsManager.getContext().getString(R.string.BTN_UPDATE_LOADING_TITLE));
-        viewsManager.getBtnUpdate().setClickable(false);
+        viewsManager.getTextPriceActual().setText(viewsManager.getContext().getString(R.string.PRICE_LOADING_TITLE));
+        viewsManager.getTextPriceActual().setClickable(false);
     }
 
     @Override
@@ -47,7 +47,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
     @Override
     protected void onPostExecute(List<Good> goods) {
         if (goods != null && goods.size() > 0) {
-            viewsManager.updateData(goods);
+            viewsManager.updatePrice(goods);
             Toast.makeText(viewsManager.getContext(),
                     viewsManager.getContext().getText(R.string.PRICE_WAS_UPDATED_MESSAGE) + viewsManager.getFormattedDate(viewsManager.getActualDate()),
                     Toast.LENGTH_SHORT).show();
@@ -57,9 +57,9 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
             } else {
                 Toast.makeText(viewsManager.getContext(), viewsManager.getContext().getText(R.string.ERROR_CONNECTION) + errorString, Toast.LENGTH_SHORT).show();
             }
+            viewsManager.updateText();
         }
-        viewsManager.getBtnUpdate().setText(viewsManager.getContext().getString(R.string.BTN_UPDATE_TITLE));
-        viewsManager.getBtnUpdate().setClickable(true);
+        viewsManager.getTextPriceActual().setClickable(true);
     }
 
     private void updateActualDate(Date date) {

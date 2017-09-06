@@ -14,22 +14,20 @@ import java.util.TimerTask;
 //todo выход из группы по кнопке "назад"  - не уверен что нужно
 //todo формирование и отправка заказа
 
-
 public class MainActivity extends Activity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        final Button btnUpdate = (Button) findViewById(R.id.btnUpdate);
         final ListView listGroups = (ListView) findViewById(R.id.listGroups);
         final ListView listGoods = (ListView) findViewById(R.id.listGoods);
         final TextView textPriceActual = (TextView) findViewById(R.id.textPriceActual);
 
-        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, btnUpdate, this);
+        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, this);
         viewsManager.update();
 
-        btnUpdate.setOnClickListener(new View.OnClickListener() {
+        textPriceActual.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 viewsManager.updatePrice();
@@ -51,7 +49,7 @@ public class MainActivity extends Activity {
                 } else if (viewsManager.getSelectedSubGroup().isEmpty()) {
                     viewsManager.setSelectedSubGroup(selectedGroup);
                 }
-                viewsManager.update();
+                viewsManager.updateDataViews();
             }
         });
 
