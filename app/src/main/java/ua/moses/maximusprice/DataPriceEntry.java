@@ -12,4 +12,5 @@ final class DataPriceEntry implements BaseColumns {
     final static String COLUMN_SUBGROUP = "subgroup";
     final static String COLUMN_DESCRIPTION = "description";
     final static String COLUMN_AVALAIBILITY = "avalaibility";
+    final static String COLUMN_ORDER = "order_qty";
 }

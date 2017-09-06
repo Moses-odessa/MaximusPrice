@@ -12,7 +12,7 @@ class ViewsManager {
     private ListView listGroups;
     private ListView listGoods;
     private TextView textPriceActual;
-    private DataManager priceData;
+    private DataBaseManager priceData;
     private Context context;
     private String selectedGroup = "";
     private String selectedSubGroup = "";
@@ -31,7 +31,7 @@ class ViewsManager {
         this.listGroups = listGroups;
         this.listGoods = listGoods;
         this.textPriceActual = textPriceActual;
-        this.priceData = new DataManager(context);
+        this.priceData = new DataBaseManager(context);
         this.context = context;
     }
 

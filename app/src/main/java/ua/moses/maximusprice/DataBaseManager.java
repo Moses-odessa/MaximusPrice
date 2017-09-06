@@ -10,12 +10,12 @@ import android.util.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class DataManager extends SQLiteOpenHelper {
+public class DataBaseManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "price.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final int DATABASE_VERSION = 2;
     private Context context;
 
-    DataManager(Context context) {
+    DataBaseManager(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
@@ -83,6 +83,7 @@ public class DataManager extends SQLiteOpenHelper {
             good.setGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_GROUP)));
             good.setSubGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_SUBGROUP)));
             good.setDescription(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_DESCRIPTION)));
+            good.setOrder(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_ORDER)));
             good.setAvailability(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_AVALAIBILITY)));
             result.add(good);
         }
@@ -128,6 +129,7 @@ public class DataManager extends SQLiteOpenHelper {
         values.put(DataPriceEntry.COLUMN_SUBGROUP, good.getSubGroup());
         values.put(DataPriceEntry.COLUMN_DESCRIPTION, good.getDescription());
         values.put(DataPriceEntry.COLUMN_AVALAIBILITY, good.getAvailability());
+        values.put(DataPriceEntry.COLUMN_ORDER, good.getOrder());
 
         db.insert(DataPriceEntry.TABLE_NAME, null, values);
     }
@@ -142,6 +144,7 @@ public class DataManager extends SQLiteOpenHelper {
                 + DataPriceEntry.COLUMN_GROUP + " TEXT NOT NULL, "
                 + DataPriceEntry.COLUMN_SUBGROUP + " TEXT NOT NULL, "
                 + DataPriceEntry.COLUMN_DESCRIPTION + " TEXT NOT NULL, "
+                + DataPriceEntry.COLUMN_ORDER + " INTEGER, "
                 + DataPriceEntry.COLUMN_AVALAIBILITY + " TEXT NOT NULL);";
         db.execSQL(SQL_CREATE_PRICE_TABLE);
     }

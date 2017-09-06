@@ -7,7 +7,16 @@ public class Good {
     private String group = "";
     private String subGroup = "";
     private String description = "";
+    private int order = 0;
     private String availability = "+";
+
+    int getOrder() {
+        return order;
+    }
+
+    void setOrder(int order) {
+        this.order = order;
+    }
 
     void setId(int id) {
         this.id = id;
