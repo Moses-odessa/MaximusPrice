@@ -152,7 +152,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         Log.w("SQLite", "Обновляемся с версии " + oldVersion + " на версию " + newVersion);
-        db.execSQL("DROP TABLE IF IT EXISTS " + DataPriceEntry.TABLE_NAME);
+        db.execSQL("DROP TABLE IF EXISTS " + DataPriceEntry.TABLE_NAME);
         onCreate(db);
     }
 }

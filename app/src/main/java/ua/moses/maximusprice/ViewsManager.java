@@ -52,18 +52,18 @@ class ViewsManager {
     }
 
     private void updateGoods() {
-        ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
+        //ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
         List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
-        for (Good good : goods) {
-            HashMap<String, String> map = new HashMap<>();
-            map.put("Title", good.getName());
-            map.put("Info", good.getInfo());
-            goodsArray.add(map);
-        }
-        SimpleAdapter goodsAdapter = new SimpleAdapter(context, goodsArray, R.layout.good_list_item,
-                new String[]{"Title", "Info"},
-                new int[]{R.id.goodTitle, R.id.goodInfo});
-        listGoods.setAdapter(goodsAdapter);
+        //for (Good good : goods) {
+        //    HashMap<String, String> map = new HashMap<>();
+        //    map.put("Title", good.getName());
+        //    map.put("Info", good.getInfo());
+        //    goodsArray.add(map);
+        //}
+        //SimpleAdapter goodsAdapter = new SimpleAdapter(context, goodsArray, R.layout.good_list_item,
+        //        new String[]{"Title", "Info"},
+        //        new int[]{R.id.goodTitle, R.id.goodInfo});
+        listGoods.setAdapter(new GoodsAdapter(context, goods));
     }
 
     private void updateGroups() {
