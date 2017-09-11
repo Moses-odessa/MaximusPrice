@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#AAAAAA</color>
     <color name="colorAccent">#FF0000</color>
     <color name="colorLight">#EEEEEE</color>
+    <color name="colorCart">#88EE88</color>
 </resources>

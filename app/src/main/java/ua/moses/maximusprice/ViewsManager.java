@@ -12,6 +12,7 @@ class ViewsManager {
     private ListView listGroups;
     private ListView listGoods;
     private TextView textPriceActual;
+    private TextView textOrderCartInfo;
     private DataBaseManager priceData;
     private Context context;
     private String selectedGroup = "";
@@ -27,10 +28,11 @@ class ViewsManager {
         this.selectedSubGroup = selectedSubGroup;
     }
 
-    ViewsManager(ListView listGroups, ListView listGoods, TextView textPriceActual, Context context) {
+    ViewsManager(ListView listGroups, ListView listGoods, TextView textPriceActual, TextView textOrderCartInfo, Context context) {
         this.listGroups = listGroups;
         this.listGoods = listGoods;
         this.textPriceActual = textPriceActual;
+        this.textOrderCartInfo = textOrderCartInfo;
         this.priceData = new DataBaseManager(context);
         this.context = context;
     }
@@ -42,8 +44,19 @@ class ViewsManager {
 
     void update() {
         updateText();
+        updateCart();
         updateDataViews();
 
+    }
+
+    void updateCart() {
+        List<Good> cart = priceData.getAllOrder();
+        if (cart.size() > 0) {
+            textOrderCartInfo.setText(context.getString(R.string.orderCartLabel));
+            textOrderCartInfo.append(cart.size() + "");
+        } else {
+            textOrderCartInfo.setText("");
+        }
     }
 
     void updateDataViews() {
@@ -52,18 +65,7 @@ class ViewsManager {
     }
 
     private void updateGoods() {
-        //ArrayList<HashMap<String, String>> goodsArray = new ArrayList<>();
-        List<Good> goods = priceData.getGoods(selectedGroup, selectedSubGroup);
-        //for (Good good : goods) {
-        //    HashMap<String, String> map = new HashMap<>();
-        //    map.put("Title", good.getName());
-        //    map.put("Info", good.getInfo());
-        //    goodsArray.add(map);
-        //}
-        //SimpleAdapter goodsAdapter = new SimpleAdapter(context, goodsArray, R.layout.good_list_item,
-        //        new String[]{"Title", "Info"},
-        //        new int[]{R.id.goodTitle, R.id.goodInfo});
-        listGoods.setAdapter(new GoodsAdapter(context, goods));
+        listGoods.setAdapter(new GoodsAdapter(context, this));
     }
 
     private void updateGroups() {
@@ -134,5 +136,13 @@ class ViewsManager {
 
     TextView getTextPriceActual() {
         return textPriceActual;
+    }
+
+    List<Good> getGoods() {
+        return priceData.getGoods(selectedGroup, selectedSubGroup);
+    }
+
+    void setOrder(Good good) {
+        priceData.setOrder(good);
     }
 }

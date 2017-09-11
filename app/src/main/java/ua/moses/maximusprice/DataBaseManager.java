@@ -120,6 +120,42 @@ public class DataBaseManager extends SQLiteOpenHelper {
 
     }
 
+    void setOrder(Good good) {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put(DataPriceEntry.COLUMN_ORDER, good.getOrder());
+        db.update(DataPriceEntry.TABLE_NAME, newValues, DataPriceEntry.COLUMN_GOOD_ID + " = ?", new String[] {good.getId() + ""});
+        db.close();
+    }
+
+    List<Good> getAllOrder() {
+        List<Good> result = new ArrayList<>();
+        SQLiteDatabase db = this.getReadableDatabase();
+        String sql = "SELECT DISTINCT * "
+                + " FROM "
+                + DataPriceEntry.TABLE_NAME
+                + " WHERE "
+                + DataPriceEntry.COLUMN_ORDER + "> 0"
+                + " ORDER BY "
+                + DataPriceEntry.COLUMN_NAME;
+        Cursor cursor = db.rawQuery(sql, null);
+        while (cursor.moveToNext()) {
+            Good good = new Good();
+            good.setId(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_GOOD_ID)));
+            good.setName(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_NAME)));
+            good.setPrice(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_PRICE)));
+            good.setGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_GROUP)));
+            good.setSubGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_SUBGROUP)));
+            good.setDescription(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_DESCRIPTION)));
+            good.setOrder(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_ORDER)));
+            good.setAvailability(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_AVALAIBILITY)));
+            result.add(good);
+        }
+        cursor.close();
+        db.close();
+        return result;
+    }
+
     private void addGood( SQLiteDatabase db, Good good) {
         ContentValues values = new ContentValues();
         values.put(DataPriceEntry.COLUMN_GOOD_ID, good.getId());

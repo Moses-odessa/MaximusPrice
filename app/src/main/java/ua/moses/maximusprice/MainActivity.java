@@ -23,8 +23,9 @@ public class MainActivity extends Activity {
         final ListView listGroups = (ListView) findViewById(R.id.listGroups);
         final ListView listGoods = (ListView) findViewById(R.id.listGoods);
         final TextView textPriceActual = (TextView) findViewById(R.id.textPriceActual);
+        final TextView textOrderCartInfo = (TextView) findViewById(R.id.textOrderCartInfo);
 
-        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, this);
+        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, textOrderCartInfo, this);
         viewsManager.update();
 
         textPriceActual.setOnClickListener(new View.OnClickListener() {

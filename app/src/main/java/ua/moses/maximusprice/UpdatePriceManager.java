@@ -58,6 +58,7 @@ public class UpdatePriceManager extends AsyncTask<String, Integer, List<Good>> {
                 Toast.makeText(viewsManager.getContext(), viewsManager.getContext().getText(R.string.ERROR_CONNECTION) + errorString, Toast.LENGTH_SHORT).show();
             }
             viewsManager.updateText();
+            viewsManager.updateCart();
         }
         viewsManager.getTextPriceActual().setClickable(true);
     }

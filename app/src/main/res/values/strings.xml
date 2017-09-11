@@ -13,5 +13,9 @@
     <string name="PRICE_WAS_UPDATED_MESSAGE">Прайс был успешно обновлен. Дата актуальности прайса:</string>
     <string name="DESCRIPTION_TITLE">Описание</string>
     <string name="BTN_OK">OK</string>
+    <string name="orderQuantityLabel">Заказ</string>
+    <string name="goodPriceLabel">Цена</string>
+    <string name="goodAvailabilityLabel">Наличие</string>
+    <string name="orderCartLabel">Корзина\n</string>
 
 </resources>

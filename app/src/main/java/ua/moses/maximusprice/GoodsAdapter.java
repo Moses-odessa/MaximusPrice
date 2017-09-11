@@ -12,10 +12,12 @@ public class GoodsAdapter extends BaseAdapter {
     private Context context;
     private LayoutInflater layoutInflater;
     private List<Good> goods;
+    private ViewsManager viewsManager;
 
-    GoodsAdapter(Context context, List<Good> goods) {
+    GoodsAdapter(Context context, ViewsManager viewsManager) {
         this.context = context;
-        this.goods = goods;
+        this.goods = viewsManager.getGoods();
+        this.viewsManager = viewsManager;
         layoutInflater = (LayoutInflater) this.context
                 .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -43,25 +45,37 @@ public class GoodsAdapter extends BaseAdapter {
         }
         final Good good = getGood(position);
         ((TextView) view.findViewById(R.id.goodTitle)).setText(good.getName());
-        ((TextView) view.findViewById(R.id.goodInfo)).setText(good.getInfo());
-        NumberPicker orderQuantity = (NumberPicker) view.findViewById(R.id.orderQuantity);
-        orderQuantity.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+        ((TextView) view.findViewById(R.id.goodPrice)).setText(good.getPrice() + "");
+        ((TextView) view.findViewById(R.id.goodsAvailability)).setText(good.getAvailability());
+        ((TextView) view.findViewById(R.id.goodOrderQuantity)).setText(good.getOrder() + "");
+        TextView orderPlus = (TextView) view.findViewById(R.id.goodOrderPlus);
+        TextView orderMinus = (TextView) view.findViewById(R.id.goodOrderMinus);
+        orderPlus.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onValueChange(NumberPicker numberPicker, int i, int i1) {
-                //todo запрос к базе данных на изменение количества
+            public void onClick(View view) {
+                changeOrder(1, good);
             }
         });
-        //orderQuantity.setTag(position);
-        orderQuantity.setMinValue(0);
-        orderQuantity.setMaxValue(10);
-        orderQuantity.setValue(good.getOrder());
-        orderQuantity.setWrapSelectorWheel(false);
-
-
+        orderMinus.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changeOrder(-1, good);
+            }
+        });
+        
         return view;
     }
 
-    Good getGood(int position) {
+    private void changeOrder(int delta, Good good) {
+        if (good.getOrder() + delta >= 0) {
+            good.setOrder(good.getOrder() + delta);
+            viewsManager.setOrder(good);
+            viewsManager.updateCart();
+            this.notifyDataSetChanged();
+        }
+    }
+
+    private Good getGood(int position) {
         return ((Good) getItem(position));
     }
 
