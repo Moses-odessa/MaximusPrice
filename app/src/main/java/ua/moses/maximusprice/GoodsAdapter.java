@@ -2,8 +2,12 @@ package ua.moses.maximusprice;
 
 import java.util.List;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.*;
@@ -44,26 +48,59 @@ public class GoodsAdapter extends BaseAdapter {
             view = layoutInflater.inflate(R.layout.good_list_item, parent, false);
         }
         final Good good = getGood(position);
-        ((TextView) view.findViewById(R.id.goodTitle)).setText(good.getName());
+        TextView goodTitle = (TextView) view.findViewById(R.id.goodTitle);
+        goodTitle.setText(good.getName());
         ((TextView) view.findViewById(R.id.goodPrice)).setText(good.getPrice() + "");
         ((TextView) view.findViewById(R.id.goodsAvailability)).setText(good.getAvailability());
-        ((TextView) view.findViewById(R.id.goodOrderQuantity)).setText(good.getOrder() + "");
-        TextView orderPlus = (TextView) view.findViewById(R.id.goodOrderPlus);
-        TextView orderMinus = (TextView) view.findViewById(R.id.goodOrderMinus);
-        orderPlus.setOnClickListener(new View.OnClickListener() {
+        TextView goodOrder = (TextView) view.findViewById(R.id.goodOrderQuantity);
+        goodOrder.setText(good.getOrder() + "");
+        if (good.getOrder() > 0) {
+            goodOrder.setTextColor(ContextCompat.getColor(context, R.color.colorAccent));
+        } else {
+            goodOrder.setTextColor(ContextCompat.getColor(context, R.color.colorPrimaryDark));
+        }
+
+        final float[] fromPosition = {0};
+        view.setOnTouchListener(new View.OnTouchListener() {
             @Override
-            public void onClick(View view) {
-                changeOrder(1, good);
-            }
-        });
-        orderMinus.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                changeOrder(-1, good);
+            public boolean onTouch(View view, MotionEvent event) {
+                switch (event.getAction())
+                {
+                    case MotionEvent.ACTION_DOWN:
+                        fromPosition[0] = event.getX();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        float toPosition = event.getX();
+                        if (fromPosition[0] - toPosition > 20)
+                            changeOrder(-1, good);
+                        else if (fromPosition[0] - toPosition < -20)
+                            changeOrder(1, good);
+                        else showDescriptionDialogs(good.getDescription());
+                    default:
+                        break;
+                }
+                return true;
             }
         });
         
         return view;
+    }
+
+    private void showDescriptionDialogs(String description) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(viewsManager.getContext());
+        builder.setTitle(R.string.DESCRIPTION_TITLE)
+                .setMessage(description.replace(". ", ".\n"))
+                .setCancelable(false)
+                .setNegativeButton(R.string.BTN_OK,
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog infoBox = builder.create();
+        infoBox.show();
+        TextView textInfo = (TextView) infoBox.findViewById(android.R.id.message);
+        textInfo.setTextSize(14);
     }
 
     private void changeOrder(int delta, Good good) {

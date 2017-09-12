@@ -6,6 +6,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 
@@ -52,28 +53,6 @@ public class MainActivity extends Activity {
                     viewsManager.setSelectedSubGroup(selectedGroup);
                 }
                 viewsManager.updateDataViews();
-            }
-        });
-
-        listGoods.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View itemClicked, int position,
-                                    long id) {
-                String selectedGoods = ((TextView) itemClicked.findViewById(R.id.goodTitle)).getText().toString();
-                AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
-                builder.setTitle(R.string.DESCRIPTION_TITLE)
-                        .setMessage(viewsManager.getGoodsDescription(selectedGoods).replace(". ", ".\n"))
-                        .setCancelable(false)
-                        .setNegativeButton(R.string.BTN_OK,
-                                new DialogInterface.OnClickListener() {
-                                    public void onClick(DialogInterface dialog, int id) {
-                                        dialog.cancel();
-                                    }
-                                });
-                AlertDialog infoBox = builder.create();
-                infoBox.show();
-                TextView textInfo = (TextView) infoBox.findViewById(android.R.id.message);
-                textInfo.setTextSize(14);
             }
         });
 

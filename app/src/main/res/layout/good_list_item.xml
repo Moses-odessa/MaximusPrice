@@ -62,27 +62,12 @@
                 android:textStyle="italic"
                 android:layout_gravity="center"
                 android:text="@string/GOOD_ORDER_QUANTITY_LABEL"/>
-        <LinearLayout android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:layout_gravity="center"
-                      android:orientation="horizontal">
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceLarge"
-                      android:text="@string/GOOD_ORDER_MINUS_LABEL"
-                      android:id="@+id/goodOrderMinus"/>
-            <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textAppearance="?android:attr/textAppearanceLarge"
-                    android:textColor="@color/colorAccent"
-                    android:id="@+id/goodOrderQuantity"/>
-            <TextView android:layout_width="wrap_content"
-                      android:layout_height="wrap_content"
-                      android:textAppearance="?android:attr/textAppearanceLarge"
-                      android:text="@string/GOOD_ORDER_PLUS_LABEL"
-                      android:id="@+id/goodOrderPlus"/>
-        </LinearLayout>
+
+        <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:id="@+id/goodOrderQuantity"/>
 
     </LinearLayout>
 

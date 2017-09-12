@@ -12,18 +12,16 @@
     <string name="PRICE_LOADING_TITLE">Идет загрузка....</string>
     <string name="PRICE_WAS_UPDATED_MESSAGE">Прайс был успешно обновлен. Дата актуальности прайса:</string>
     <string name="DESCRIPTION_TITLE">Описание</string>
-    <string name="BTN_OK">OK</string>
     <string name="ORDER_CART_TITLE">Ваш заказ</string>
     <string name="ORDER_CART_LABEL" formatted="false">Товаров: %d.\nНа сумму: %.1f.</string>
     <string name="ORDER_TOTAL_TITLE">Всего на сумму:</string>
+    <string name="ORDER_SEND_TILE">Отправка заказа</string>
     <string name="GOOD_PRICE_LABEL">Цена</string>
     <string name="GOOD_AVAILABILITY_LABEL">Наличие</string>
     <string name="GOOD_ORDER_QUANTITY_LABEL">Заказ</string>
-    <string name="GOOD_ORDER_MINUS_LABEL"><![CDATA[<-]]></string>
-    <string name="GOOD_ORDER_PLUS_LABEL"><![CDATA[+>]]></string>
-    <string name="BTN_SEND">Отправить</string>
+    <string name="BTN_OK">OK</string>
     <string name="BTN_CANCEL">Отмена</string>
+    <string name="BTN_SEND">Отправить</string>
     <string name="BTN_CLEAR">Очистить</string>
-    <string name="ORDER_SEND_TILE">Отправка заказа</string>
 
 </resources>
