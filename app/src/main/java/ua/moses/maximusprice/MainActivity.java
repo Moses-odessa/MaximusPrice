@@ -13,7 +13,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 //todo выход из группы по кнопке "назад"  - не уверен что нужно
-//todo формирование и отправка заказа
+//todo корректировка заказа слайд вправо-влево
 
 public class MainActivity extends Activity {
 
