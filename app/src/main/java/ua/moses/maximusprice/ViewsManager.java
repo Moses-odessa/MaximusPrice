@@ -50,10 +50,10 @@ class ViewsManager {
     }
 
     void updateCart() {
-        List<Good> cart = priceData.getAllOrder();
-        if (cart.size() > 0) {
-            textOrderCartInfo.setText(context.getString(R.string.orderCartLabel));
-            textOrderCartInfo.append(cart.size() + "");
+        Order cart = priceData.getOrder();
+        if (cart.getOrderQuantity() > 0) {
+            String text = String.format(context.getString(R.string.ORDER_CART_LABEL), cart.getOrderQuantity(), cart.getOrderSumm());
+            textOrderCartInfo.setText(text);
         } else {
             textOrderCartInfo.setText("");
         }
@@ -64,7 +64,7 @@ class ViewsManager {
         updateGoods();
     }
 
-    private void updateGoods() {
+    void updateGoods() {
         listGoods.setAdapter(new GoodsAdapter(context, this));
     }
 
@@ -85,7 +85,7 @@ class ViewsManager {
     }
 
     void updateText() {
-        if (getNewDate().getTime() > getActualDate().getTime()){
+        if (getNewDate().getTime() > getActualDate().getTime()) {
             textPriceActual.setText(String.format(context.getString(R.string.NEW_DATE_TITLE), getFormattedDate(getNewDate())));
             textPriceActual.setBackgroundColor(ContextCompat.getColor(context, R.color.colorAccent));
 
@@ -144,5 +144,13 @@ class ViewsManager {
 
     void setOrder(Good good) {
         priceData.setOrder(good);
+    }
+
+    Order getOrder() {
+        return priceData.getOrder();
+    }
+
+    void clearOrder() {
+        priceData.clearOrder();
     }
 }

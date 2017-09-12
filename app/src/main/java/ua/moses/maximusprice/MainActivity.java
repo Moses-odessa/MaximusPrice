@@ -3,6 +3,7 @@ package ua.moses.maximusprice;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
@@ -72,6 +73,43 @@ public class MainActivity extends Activity {
                 AlertDialog infoBox = builder.create();
                 infoBox.show();
                 TextView textInfo = (TextView) infoBox.findViewById(android.R.id.message);
+                textInfo.setTextSize(14);
+            }
+        });
+
+        textOrderCartInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog orderDialog = new AlertDialog.Builder(MainActivity.this).create();
+                orderDialog.setTitle(R.string.ORDER_CART_TITLE);
+                final String orderString = String.format(viewsManager.getOrder().toString(), getString(R.string.ORDER_TOTAL_TITLE));
+                orderDialog.setMessage(orderString);
+                orderDialog.setButton(AlertDialog.BUTTON_POSITIVE, getString(R.string.BTN_SEND), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        Intent share = new Intent(Intent.ACTION_SEND);
+                        share.setType("text/plain");
+                        share.putExtra(Intent.EXTRA_TEXT, orderString);
+                        startActivity(Intent.createChooser(share, getString(R.string.ORDER_SEND_TILE)));
+                        viewsManager.clearOrder();
+                        viewsManager.updateCart();
+                        viewsManager.updateGoods();
+                    }
+                });
+                orderDialog.setButton(AlertDialog.BUTTON_NEGATIVE, getString(R.string.BTN_CANCEL), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        //nothing
+                    }
+                });
+
+                orderDialog.setButton(AlertDialog.BUTTON_NEUTRAL, getString(R.string.BTN_CLEAR), new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        viewsManager.clearOrder();
+                        viewsManager.updateCart();
+                        viewsManager.updateGoods();
+                    }
+                });
+                orderDialog.show();
+                TextView textInfo = (TextView) orderDialog.findViewById(android.R.id.message);
                 textInfo.setTextSize(14);
             }
         });

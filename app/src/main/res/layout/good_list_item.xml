@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
+              android:baselineAligned="false"
               android:orientation="horizontal">
 
     <LinearLayout android:layout_width="0dp"
@@ -11,7 +12,6 @@
         <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Наименование товара очень-очень длинное, так что не влазит в одну строку"
                 android:textAppearance="?android:attr/textAppearanceSmall"
                 android:textStyle="bold"
                 android:id="@+id/goodTitle"/>
@@ -20,67 +20,67 @@
 
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/activity_horizontal_margin"
+                  android:layout_marginRight="@dimen/activity_horizontal_margin"
                   android:orientation="vertical">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
                 android:layout_gravity="center"
-                android:text="@string/goodPriceLabel"/>
+                android:text="@string/GOOD_PRICE_LABEL"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                android:text="0"
                 android:id="@+id/goodPrice"/>
     </LinearLayout>
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/activity_horizontal_margin"
+                  android:layout_marginRight="@dimen/activity_horizontal_margin"
                   android:orientation="vertical">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
                 android:layout_gravity="center"
-                android:text="@string/goodAvailabilityLabel"/>
+                android:text="@string/GOOD_AVAILABILITY_LABEL"/>
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="bold"
                 android:layout_gravity="center"
-                android:text="0"
                 android:id="@+id/goodsAvailability"/>
     </LinearLayout>
     <LinearLayout android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
-                  android:layout_margin="@dimen/activity_horizontal_margin"
+                  android:layout_marginRight="@dimen/activity_horizontal_margin"
                   android:orientation="vertical">
         <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="italic"
                 android:layout_gravity="center"
-                android:text="@string/orderQuantityLabel"/>
+                android:text="@string/GOOD_ORDER_QUANTITY_LABEL"/>
         <LinearLayout android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
                       android:layout_gravity="center"
                       android:orientation="horizontal">
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text="- "
+                      android:textAppearance="?android:attr/textAppearanceLarge"
+                      android:text="@string/GOOD_ORDER_MINUS_LABEL"
                       android:id="@+id/goodOrderMinus"/>
             <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:text="0"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:textColor="@color/colorAccent"
                     android:id="@+id/goodOrderQuantity"/>
             <TextView android:layout_width="wrap_content"
                       android:layout_height="wrap_content"
-                      android:text=" +"
+                      android:textAppearance="?android:attr/textAppearanceLarge"
+                      android:text="@string/GOOD_ORDER_PLUS_LABEL"
                       android:id="@+id/goodOrderPlus"/>
         </LinearLayout>
 

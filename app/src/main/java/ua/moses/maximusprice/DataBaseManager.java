@@ -42,7 +42,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
                     + " FROM "
                     + DataPriceEntry.TABLE_NAME
                     + " WHERE "
-                    + DataPriceEntry.COLUMN_GROUP + "='" + parentGroup +"' AND "
+                    + DataPriceEntry.COLUMN_GROUP + "='" + parentGroup + "' AND "
                     + DataPriceEntry.COLUMN_SUBGROUP + "<>''"
                     + " ORDER BY 1";
             columnName = DataPriceEntry.COLUMN_SUBGROUP;
@@ -95,7 +95,7 @@ public class DataBaseManager extends SQLiteOpenHelper {
     void updatePrice(List<Good> goods) {
         SQLiteDatabase db = this.getWritableDatabase();
         db.delete(DataPriceEntry.TABLE_NAME, null, null);
-        for (Good good : goods){
+        for (Good good : goods) {
             addGood(db, good);
         }
         db.close();
@@ -124,14 +124,23 @@ public class DataBaseManager extends SQLiteOpenHelper {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues newValues = new ContentValues();
         newValues.put(DataPriceEntry.COLUMN_ORDER, good.getOrder());
-        db.update(DataPriceEntry.TABLE_NAME, newValues, DataPriceEntry.COLUMN_GOOD_ID + " = ?", new String[] {good.getId() + ""});
+        db.update(DataPriceEntry.TABLE_NAME, newValues,
+                DataPriceEntry.COLUMN_GOOD_ID + " = ?",
+                new String[]{good.getId() + ""});
         db.close();
     }
 
-    List<Good> getAllOrder() {
+    Order getOrder() {
         List<Good> result = new ArrayList<>();
         SQLiteDatabase db = this.getReadableDatabase();
-        String sql = "SELECT DISTINCT * "
+        String sql = "SELECT DISTINCT " + DataPriceEntry.COLUMN_GOOD_ID
+                + ", " + DataPriceEntry.COLUMN_NAME
+                + ", " + DataPriceEntry.COLUMN_PRICE
+                //+ ", " + DataPriceEntry.COLUMN_GROUP
+                //+ ", " + DataPriceEntry.COLUMN_SUBGROUP
+                //+ ", " + DataPriceEntry.COLUMN_DESCRIPTION
+                + ", " + DataPriceEntry.COLUMN_ORDER
+                //+ ", " + DataPriceEntry.COLUMN_AVALAIBILITY
                 + " FROM "
                 + DataPriceEntry.TABLE_NAME
                 + " WHERE "
@@ -144,19 +153,29 @@ public class DataBaseManager extends SQLiteOpenHelper {
             good.setId(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_GOOD_ID)));
             good.setName(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_NAME)));
             good.setPrice(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_PRICE)));
-            good.setGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_GROUP)));
-            good.setSubGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_SUBGROUP)));
-            good.setDescription(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_DESCRIPTION)));
+            //good.setGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_GROUP)));
+            //good.setSubGroup(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_SUBGROUP)));
+            //good.setDescription(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_DESCRIPTION)));
             good.setOrder(cursor.getInt(cursor.getColumnIndex(DataPriceEntry.COLUMN_ORDER)));
-            good.setAvailability(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_AVALAIBILITY)));
+            //good.setAvailability(cursor.getString(cursor.getColumnIndex(DataPriceEntry.COLUMN_AVALAIBILITY)));
             result.add(good);
         }
         cursor.close();
         db.close();
-        return result;
+        return new Order(result);
     }
 
-    private void addGood( SQLiteDatabase db, Good good) {
+    void clearOrder() {
+        SQLiteDatabase db = this.getWritableDatabase();
+        ContentValues newValues = new ContentValues();
+        newValues.put(DataPriceEntry.COLUMN_ORDER, 0);
+        db.update(DataPriceEntry.TABLE_NAME, newValues,
+                DataPriceEntry.COLUMN_ORDER + " > ?",
+                new String[]{"0"});
+        db.close();
+    }
+
+    private void addGood(SQLiteDatabase db, Good good) {
         ContentValues values = new ContentValues();
         values.put(DataPriceEntry.COLUMN_GOOD_ID, good.getId());
         values.put(DataPriceEntry.COLUMN_NAME, good.getName());
