@@ -23,5 +23,6 @@
     <string name="BTN_CANCEL">Отмена</string>
     <string name="BTN_SEND">Отправить</string>
     <string name="BTN_CLEAR">Очистить</string>
+    <string name="EXIT_MESSAGE">Хотите выйти из приложения?</string>
 
 </resources>

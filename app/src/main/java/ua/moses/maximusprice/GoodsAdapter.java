@@ -71,9 +71,9 @@ public class GoodsAdapter extends BaseAdapter {
                         break;
                     case MotionEvent.ACTION_UP:
                         float toPosition = event.getX();
-                        if (fromPosition[0] - toPosition > 20)
+                        if (fromPosition[0] - toPosition > 5)
                             changeOrder(-1, good);
-                        else if (fromPosition[0] - toPosition < -20)
+                        else if (fromPosition[0] - toPosition < -5)
                             changeOrder(1, good);
                         else showDescriptionDialogs(good.getDescription());
                     default:

@@ -6,17 +6,15 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.*;
 
 import java.util.Timer;
 import java.util.TimerTask;
 
-//todo выход из группы по кнопке "назад"  - не уверен что нужно
-//todo корректировка заказа слайд вправо-влево
 
 public class MainActivity extends Activity {
+    private ViewsManager viewsManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,7 +25,7 @@ public class MainActivity extends Activity {
         final TextView textPriceActual = (TextView) findViewById(R.id.textPriceActual);
         final TextView textOrderCartInfo = (TextView) findViewById(R.id.textOrderCartInfo);
 
-        final ViewsManager viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, textOrderCartInfo, this);
+        viewsManager = new ViewsManager(listGroups, listGoods, textPriceActual, textOrderCartInfo, this);
         viewsManager.update();
 
         textPriceActual.setOnClickListener(new View.OnClickListener() {
@@ -107,5 +105,31 @@ public class MainActivity extends Activity {
                 });
             }
         }, 0L, 60L * 10000);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (!viewsManager.getSelectedSubGroup().isEmpty()) {
+            viewsManager.setSelectedSubGroup("");
+            viewsManager.updateDataViews();
+        } else if (!viewsManager.getSelectedGroup().isEmpty() && viewsManager.getSelectedSubGroup().isEmpty()) {
+            viewsManager.setSelectedGroup("");
+            viewsManager.updateDataViews();
+        } else {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.EXIT_MESSAGE)
+                    .setPositiveButton(R.string.BTN_OK, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            finish();
+                        }
+                    })
+                    .setNegativeButton(R.string.BTN_CANCEL, new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            //nothing
+                        }
+                    })
+                    .show();
+
+        }
     }
 }
